@@ -1,0 +1,9 @@
+*.tfstate
+*.tfstate*
+ssh/*
+.terraform
+*.backup
+.idea
+*.out
+plan.out
+creds/credentials
