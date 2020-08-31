@@ -15,7 +15,7 @@ start:
 		   --hostname "$$(basename $$PWD)" \
 		   --name "$$(basename $$PWD)" \
 		   -w /$$(basename $$PWD) \
-		   bryandollery/terraform-packer-aws-alpine
+		   bryandollery/terraform-packer-aws-alpine bash
 
 exec:
 	docker exec -it "$$(basename $$PWD)" bash || true
@@ -38,12 +38,12 @@ down:
 test: copy connect
 
 copy:
-	ssh -i ssh/id_rsa ubuntu@$$(terraform output -json | jq '.bastion_ip.value' | xargs) rm -f /home/ubuntu/id_rsa
-	scp -i ssh/id_rsa ssh/id_rsa ubuntu@$$(terraform output -json | jq '.bastion_ip.value' | xargs):~
-	ssh -i ssh/id_rsa ubuntu@$$(terraform output -json | jq '.bastion_ip.value' | xargs) chmod 400 /home/ubuntu/id_rsa
+	ssh -i ssh/id_rsa ubuntu@$$(terraform output -json | jq '.controlplane_ip.value' | xargs) rm -f /home/ubuntu/id_rsa
+	scp -i ssh/id_rsa ssh/id_rsa ubuntu@$$(terraform output -json | jq '.controlplane_ip.value' | xargs):~
+	ssh -i ssh/id_rsa ubuntu@$$(terraform output -json | jq '.controlplane_ip.value' | xargs) chmod 400 /home/ubuntu/id_rsa
 
 connect:
-	ssh -i ssh/id_rsa ubuntu@$$(terraform output -json | jq '.bastion_ip.value' | xargs)
+	ssh -i ssh/id_rsa ubuntu@$$(terraform output -json | jq '.controlplane_ip.value' | xargs)
 
 init:
 	rm -rf .terraform ssh

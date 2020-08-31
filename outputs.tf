@@ -1,3 +1,3 @@
-output "bastion_ip" {
-  value = module.dev.bastion
+output "controlplane_ip" {
+  value = module.dev.controlplane
 }
